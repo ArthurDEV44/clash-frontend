@@ -1,5 +1,6 @@
 // WebSocketContext.tsx
 import React, { createContext, useEffect, useRef, useState, useContext } from 'react';
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 interface Player {
   id: number;
@@ -45,7 +46,7 @@ export const WebSocketProvider: React.FC<{children: React.ReactNode}> = ({ child
   const ws = useRef<WebSocket | null>(null);
 
   useEffect(() => {
-    fetch('http://localhost:3001/players')
+    fetch(`${backendUrl}/players`)
       .then(response => response.json())
       .then(data => {
         if (data && data.data) {
@@ -55,7 +56,7 @@ export const WebSocketProvider: React.FC<{children: React.ReactNode}> = ({ child
       .catch(error => console.error('Error fetching players:', error));
 
     // Connexion WebSocket
-    ws.current = new WebSocket('ws://localhost:3001');
+    ws.current = new WebSocket(import.meta.env.VITE_WEBSOCKET_URL);
     
     ws.current.onopen = () => {
       console.log('WebSocket connected');
@@ -259,10 +260,10 @@ export const WebSocketProvider: React.FC<{children: React.ReactNode}> = ({ child
 
   const addPlayerToList = (name: string) => {
     if (name.trim() === '' || clashStarted) return;
-
+  
     const newPlayer: Player = { id: 0, name };
-
-    fetch('http://localhost:3001/players', {
+  
+    fetch(`${backendUrl}/players`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newPlayer),
@@ -272,12 +273,12 @@ export const WebSocketProvider: React.FC<{children: React.ReactNode}> = ({ child
         if (data && data.id) {
           newPlayer.id = data.id;
           setPlayerList([...playerList, newPlayer]);
-
+  
           sendMessage({ type: 'new_player', data: newPlayer });
         }
       })
       .catch(error => console.error('Error adding player:', error));
-  };
+  };  
 
   const addPlayerToClash = (player: Player) => {
     if (clashStarted) return;
@@ -296,20 +297,20 @@ export const WebSocketProvider: React.FC<{children: React.ReactNode}> = ({ child
   };
 
   const removePlayerFromList = (playerId: number) => {
-    fetch(`http://localhost:3001/players/${playerId}`, {
+    fetch(`${backendUrl}/players/${playerId}`, {
       method: 'DELETE',
     })
       .then(response => {
         if (response.ok) {
           setPlayerList(playerList.filter(player => player.id !== playerId));
-
+  
           sendMessage({ type: 'delete_player_from_list', playerId });
         } else {
           console.error('Failed to delete player');
         }
       })
       .catch(error => console.error('Error deleting player:', error));
-  };
+  };  
 
   const closeModal = () => {
     setShowModal(false);
