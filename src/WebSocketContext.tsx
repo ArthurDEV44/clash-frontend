@@ -116,7 +116,7 @@ export const WebSocketProvider: React.FC<{children: React.ReactNode}> = ({ child
 
   const sendPlayerUpdate = (updatedPlayers: Player[]) => {
     sendMessage({ type: 'update_players', data: updatedPlayers });
-  };
+  };  
 
   const addMap = () => {
     const newMapIndex = maps.length + 1;
