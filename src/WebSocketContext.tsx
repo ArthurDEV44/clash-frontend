@@ -3,8 +3,8 @@ import React, { createContext, useEffect, useRef, useState, useContext } from 'r
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 const websocketUrl = import.meta.env.PROD
-  ? import.meta.env.VITE_WEBSOCKET_URL
-  : 'ws://localhost:3001';
+  ? `${import.meta.env.VITE_WEBSOCKET_URL}/ws`
+  : 'ws://localhost:3001/ws';
 
 interface Player {
   id: number;
@@ -50,11 +50,17 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const ws = useRef<WebSocket | null>(null);
 
   useEffect(() => {
+    console.log('WebSocket URL:', websocketUrl); // Vérifiez l'URL utilisée
+
     // Connexion WebSocket
     ws.current = new WebSocket(websocketUrl);
 
     ws.current.onopen = () => {
       console.log('WebSocket connected');
+    };
+
+    ws.current.onerror = (error) => {
+      console.error('WebSocket error:', error);
     };
 
     ws.current.onmessage = (event) => {
