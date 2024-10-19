@@ -77,7 +77,7 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ chi
             winner,
             showModal,
           } = message.data;
-
+        
           setPlayers(players);
           setPlayerList(playerList);
           setMaps(maps);
@@ -85,7 +85,7 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ chi
           setClashFinished(clashFinished);
           setWinner(winner);
           setShowModal(showModal);
-          break;
+          break;        
 
         case 'update_players':
           setPlayers(message.data);
@@ -131,7 +131,7 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 
         case 'clash_finished':
           setClashStarted(false);
-          setClashFinished(false);
+          setClashFinished(true);
           setWinner(null);
           setShowModal(false);
           setPlayers([]);
@@ -368,13 +368,13 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const closeModal = () => {
     setShowModal(false);
     setClashStarted(false);
-    setClashFinished(false);
+    setClashFinished(true);
     setWinner(null);
     setPlayers([]);
     setMaps([1]);
-
+  
     sendMessage({ type: 'clash_finished' });
-  };
+  };  
 
   const value = {
     players,
