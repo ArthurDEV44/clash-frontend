@@ -15,7 +15,7 @@ const MapControls: React.FC = () => {
       </button>
       <button
         onClick={removeMap}
-        className="py-2 px-4 font-bold bg-gray-600 rounded-lg text-white hover:bg-red-800 transition-all duration-300"
+        className="py-2 px-4 font-bold bg-gray-600 rounded-lg text-white hover:bg-gray-800 transition-all duration-300 cursor-pointer"
         disabled={clashStarted || maps.length === 1}
       >
         Retirer une map

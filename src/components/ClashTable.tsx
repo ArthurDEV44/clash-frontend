@@ -32,31 +32,33 @@ const ClashTable: React.FC = () => {
                 <input
                   type="text"
                   value={player.name || ''}
-                  onChange={e => handleInputChange(e, player.id, 'name')}
+                  onChange={e => handleInputChange(e, player.id, 'name', 0)}
                   className="w-full p-2 bg-gray-900 border-none text-purple-500 font-bold rounded-lg"
                   disabled={clashFinished}
                 />
               </td>
-              {maps.map(mapIndex => [
-                <td key={`kills-${player.id}-${mapIndex}`} className="px-4 py-2">
-                  <input
-                    type="number"
-                    value={player[`kills_map${mapIndex}`] || 0}
-                    onChange={e => handleInputChange(e, player.id, `kills_map${mapIndex}`)}
-                    className="w-full p-2 bg-gray-900 border-none text-white rounded-lg"
-                    disabled={clashFinished}
-                  />
-                </td>,
-                <td key={`rank-${player.id}-${mapIndex}`} className="px-4 py-2">
-                  <input
-                    type="number"
-                    value={player[`rank_map${mapIndex}`] || 0}
-                    onChange={e => handleInputChange(e, player.id, `rank_map${mapIndex}`)}
-                    className="w-full p-2 bg-gray-900 border-none text-white rounded-lg"
-                    disabled={clashFinished}
-                  />
-                </td>
-              ])}
+              {maps.map((mapIndex) => (
+                <React.Fragment key={`map-fragment-${player.id}-${mapIndex}`}>
+                  <td key={`kills-${player.id}-${mapIndex}`} className="px-4 py-2">
+                    <input
+                      type="number"
+                      value={player[`kills_map${mapIndex}`] || 0}
+                      onChange={(e) => handleInputChange(e, player.id, 'kills', mapIndex)}
+                      className="w-full p-2 bg-gray-900 border-none text-white rounded-lg"
+                      disabled={clashFinished}
+                    />
+                  </td>
+                  <td key={`rank-${player.id}-${mapIndex}`} className="px-4 py-2">
+                    <input
+                      type="number"
+                      value={player[`rank_map${mapIndex}`] || 0}
+                      onChange={(e) => handleInputChange(e, player.id, 'rank', mapIndex)}
+                      className="w-full p-2 bg-gray-900 border-none text-white rounded-lg"
+                      disabled={clashFinished}
+                    />
+                  </td>
+                </React.Fragment>
+              ))}
               <td className="px-4 py-2 text text-center text-green-500">{calculateTotalScore(player)}</td>
               <td className="px-4 py-2 text text-center">
                 <button

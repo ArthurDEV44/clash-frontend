@@ -18,7 +18,7 @@ const PlayerList: React.FC = () => {
   };
 
   return (
-    <div className="mt-8">
+    <div className="w-full mt-8 mr-2">
       <h2 className="text-2xl text-white mb-4">Liste des joueurs disponibles</h2>
       <ul className="space-y-4">
         {playerList.map(player => (
@@ -27,14 +27,14 @@ const PlayerList: React.FC = () => {
             <div className="space-x-2">
               <button
                 onClick={() => addPlayerToClash(player)}
-                className="button-gradient text-white font-bold py-2 px-4 rounded-lg hover:bg-green-800 shadow-lg transition-all duration-300"
+                className="button-gradient text-white font-bold py-2 px-4 rounded-lg shadow-lg transition-all duration-300"
                 disabled={clashStarted}
               >
                 Ajouter au clash
               </button>
               <button
                 onClick={() => removePlayerFromList(player.id)}
-                className="bg-gray-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-red-800 shadow-lg transition-all duration-300"
+                className="bg-gray-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-gray-700 shadow-lg transition-all duration-300"
               >
                 Supprimer
               </button>
